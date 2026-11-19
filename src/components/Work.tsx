@@ -93,7 +93,7 @@ export function Work() {
         <div className="mt-12">
           <h3 className="mono m-0 mb-3 text-xs font-medium tracking-[0.12em] text-ink-3 uppercase">More repositories</h3>
           <ul className="m-0 list-none p-0">
-            {more.slice(0, MORE_LIMIT).map((r) => (
+            {more.slice(0, MORE_LIMIT).map((r, i) => (
               <li key={r.name} className="border-b border-line">
                 <a
                   className="group grid grid-cols-[56px_minmax(0,1fr)_130px_56px_110px] items-baseline gap-4 py-5 no-underline [transition:background_0.15s,padding_0.2s] hover:bg-paper-2 hover:px-3 max-tight:grid-cols-[1fr_auto] max-tight:gap-x-4 max-tight:gap-y-2 max-tight:[grid-template-areas:'main_main'_'lang_time']"
@@ -101,6 +101,7 @@ export function Work() {
                   target="_blank"
                   rel="noreferrer"
                 >
+                  <span className="mono text-[13px] text-ink-3 max-tight:hidden">{String(featured.length + i + 1).padStart(2, '0')}</span>
                   <span className="grid gap-1 max-tight:[grid-area:main]">
                     <span className="text-[22px] font-bold font-stretch-[112%] tracking-[-0.015em]">
                       {r.name}{' '}
@@ -109,6 +110,7 @@ export function Work() {
                     {r.description && <span className="text-ink-2">{r.description}</span>}
                   </span>
                   <span className={`mono ${metaText} max-tight:[grid-area:lang]`}>{r.language ?? '—'}</span>
+                  <span className={`mono ${metaText} max-tight:hidden`}>★ {r.stargazers_count}</span>
                   <span className={`mono ${metaText} max-tight:[grid-area:time]`}>{ago(r.pushed_at)}</span>
                 </a>
               </li>
