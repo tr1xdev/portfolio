@@ -110,6 +110,7 @@ export default function App() {
       { id: 'copy-gh', group: 'copy', label: 'GitHub URL', run: () => copy(profile.links.github, 'GitHub URL') },
       { id: 'copy-site', group: 'copy', label: 'Link to this site', run: () => copy(profile.site, 'Site URL') },
       { id: 'print', group: 'export', label: 'Print datasheet', run: () => window.print() },
+      { id: 'decap', group: 'open', label: 'Decap the chip', hint: 'x-ray', run: () => { go('stack'); window.dispatchEvent(new Event('chip:decap')) } },
       { id: 'top', group: 'go to', label: '00 · Top', run: () => go('top') },
     ]
     if (profile.links.email) {
