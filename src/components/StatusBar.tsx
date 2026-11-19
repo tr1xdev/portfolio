@@ -30,7 +30,7 @@ export function StatusBar({ section, onPalette }: { section: string; onPalette: 
 
   return (
     <footer className="mono fixed inset-x-0 bottom-0 z-30 flex h-[calc(var(--spacing-bar)+env(safe-area-inset-bottom))] items-stretch border-t border-line bg-[rgba(8,8,9,0.92)] pb-[env(safe-area-inset-bottom)] text-xs text-ink-2 backdrop-blur-[10px] print:hidden" aria-label="Status bar">
-      <span className={`${item} text-[#f2f0ea]`}>
+      <span className={`${item} text-ink`}>
         <span className="led" aria-hidden="true" /> online
       </span>
       <span className={item}>
@@ -42,7 +42,7 @@ export function StatusBar({ section, onPalette }: { section: string; onPalette: 
       <span className={`${item} max-tight:hidden`}>
         <span className="text-ink-3">§</span> {section}
       </span>
-      <button type="button" className="mono ml-auto flex cursor-pointer items-center gap-2 border-l border-line bg-transparent px-4 text-xs whitespace-nowrap text-[#f2f0ea] hover:bg-signal hover:text-[#141414] max-phone:px-3 max-phone:text-[11px] touch:hidden [&>kbd]:text-[11px]" onClick={onPalette}>
+      <button type="button" className="mono ml-auto flex cursor-pointer items-center gap-2 border-l border-line bg-transparent px-4 text-xs whitespace-nowrap text-ink hover:bg-signal hover:text-on-signal max-phone:px-3 max-phone:text-[11px] touch:hidden [&>kbd]:text-[11px]" onClick={onPalette}>
         <kbd>{isMac ? '⌘' : 'Ctrl'} K</kbd> commands
       </button>
     </footer>
