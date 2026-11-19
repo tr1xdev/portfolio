@@ -1,6 +1,0 @@
-node_modules
-dist
-.preview
-.vercel
-*.log
-.DS_Store
