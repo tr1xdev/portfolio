@@ -1,6 +1,8 @@
 # tr1xdev — TRX-01 datasheet
 
-Portfolio styled as an engineering IC datasheet. React 19 + TypeScript + Vite.
+Personal portfolio styled as an engineering IC datasheet. React 19 + TypeScript + Vite.
+
+Live: **https://tr1xdev.github.io**
 
 ## Run
 
@@ -9,21 +11,24 @@ npm install
 npm run dev
 ```
 
-## Deploy to Vercel (Free / Hobby)
+## Deploy
 
-1. Push this folder to a GitHub repo.
-2. vercel.com → Add New → Project → import the repo.
-3. Framework preset: **Vite** (build `npm run build`, output `dist`). Deploy.
-
-Or from the terminal: `npx vercel` → `npx vercel --prod`.
+Every push to `main` builds the site and publishes it to GitHub Pages via `.github/workflows/deploy.yml`.
+One-time setup: **Settings → Pages → Source: GitHub Actions**.
 
 ## Edit
 
-All content lives in `src/data/profile.ts`: links (email / telegram are hidden while empty), pins (skills), sections.
-Projects (§04) and Electrical characteristics (§05) share one request to the public GitHub API, cached per session.
-No third-party image services are needed; if the API is rate-limited, both sections degrade gracefully.
+All content lives in `src/data/profile.ts`:
+
+- `profile` — handle, role, links (email / telegram stay hidden while empty)
+- `featured` — hand-picked projects for §02 (stars, last push and language mix are loaded live)
+- `pins` — skills shown in §03
+- `sections` — navigation
+
+§02 and §05 read the public GitHub API (cached per session). The language mix is measured in bytes of code
+across public, non-fork repositories, this site excluded. If the API is rate-limited, both sections degrade gracefully.
 
 ## Keys
 
 - `⌘K` / `Ctrl K` or `/` — command palette
-- `F` — flip the business card
+- `Esc` — close palette / menu
