@@ -201,6 +201,130 @@ export default function App() {
               <div>
                 <dt className="mono">status</dt>
                 <dd className="dd-status">
-                  <span className="led" aria-hidden="true" /> Open t
+                  <span className="led" aria-hidden="true" /> Open to projects
+                </dd>
+              </div>
+            </dl>
+          </div>
+        </section>
 
-[Truncated after 203 lines. To continue, call readFile again with offset=204.]
+        <section id="about" className="sec">
+          <div className="wrap">
+            <SectionHead no="01" title="General description" />
+            <div className="overview">
+              <p className="overview-lead">
+                I’m a backend developer who likes the parts of a system nobody sees: <em>protocols, queues, storage</em> and the failure
+                modes between them. Most of my time goes into services in Go and Rust; the rest goes into low-level side projects and ML
+                experiments.
+              </p>
+              <div className="features">
+                <h3 className="mono">Features</h3>
+                <ul>
+                  <li>Backend services &amp; system architecture</li>
+                  <li>Message-driven pipelines on Kafka, gRPC and Protobuf</li>
+                  <li>Low-level code in Rust, C and C++</li>
+                  <li>Machine learning, mostly hands-on experiments</li>
+                  <li>Tests, profiling and observability from day one</li>
+                  <li>Side projects shipped end-to-end</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section id="work" className="sec">
+          <div className="wrap">
+            <SectionHead no="02" title="Application examples" aside="selected work · live from github" />
+            <Work />
+          </div>
+        </section>
+
+        <section id="stack" className="sec">
+          <div className="wrap">
+            <SectionHead no="03" title="Pin configuration" aside="22-pin DIP · top view" />
+            <Pinout />
+          </div>
+        </section>
+
+        <section id="process" className="sec sec-inset">
+          <div className="wrap">
+            <SectionHead no="04" title="Operating principles" aside="spec → ship" />
+            <Process />
+          </div>
+        </section>
+
+        <section id="specs" className="sec">
+          <div className="wrap">
+            <SectionHead no="05" title="Electrical characteristics" aside="measured live" />
+            <Stats />
+          </div>
+        </section>
+
+        <section id="contact" className="sec sec-contact">
+          <div className="wrap">
+            <SectionHead no="06" title="Ordering information" />
+            <div className="order">
+              <table className="order-table">
+                <tbody>
+                  <tr>
+                    <th scope="row" className="mono">part number</th>
+                    <td>{profile.partNo}</td>
+                  </tr>
+                  <tr>
+                    <th scope="row" className="mono">handle</th>
+                    <td>{profile.handle}</td>
+                  </tr>
+                  <tr>
+                    <th scope="row" className="mono">time zone</th>
+                    <td>{profile.tzLabel}</td>
+                  </tr>
+                  <tr>
+                    <th scope="row" className="mono">interface</th>
+                    <td>GitHub{profile.links.email ? ' · Email' : ''}{profile.links.telegram ? ' · Telegram' : ''}</td>
+                  </tr>
+                </tbody>
+              </table>
+              <div className="order-cta">
+                <p className="mono muted">Open to backend work, collaborations and odd side projects.</p>
+                <a className="mega-link" href={profile.links.github} target="_blank" rel="noreferrer">
+                  <span>github.com/</span>
+                  {profile.githubUser}
+                  <span className="arrow" aria-hidden="true">↗</span>
+                </a>
+                <div className="order-actions">
+                  <button type="button" className="btn btn-line" onClick={() => copy(profile.links.github, 'GitHub URL')}>
+                    Copy link
+                  </button>
+                  {profile.links.email && (
+                    <a className="btn btn-line" href={`mailto:${profile.links.email}`}>
+                      Email
+                    </a>
+                  )}
+                  {profile.links.telegram && (
+                    <a className="btn btn-line" href={profile.links.telegram} target="_blank" rel="noreferrer">
+                      Telegram
+                    </a>
+                  )}
+                </div>
+              </div>
+            </div>
+            <p className="colophon mono">
+              <span>© {new Date().getFullYear()} {profile.handle}</span>
+              <span>react + typescript + vite</span>
+              <span>hosted on github pages</span>
+              <span className="colophon-kbd">
+                press <kbd>{kbd}</kbd>
+              </span>
+            </p>
+          </div>
+        </section>
+      </main>
+
+      <StatusBar section={current ? `${current.no} ${current.label.toLowerCase()}` : '00 top'} onPalette={() => setPalette(true)} />
+      <CommandPalette open={palette} onClose={() => setPalette(false)} commands={commands} />
+      <div className={`toast mono${toast ? ' is-on' : ''}`} role="status" aria-live="polite">
+        {toast}
+      </div>
+    </>
+  )
+}
