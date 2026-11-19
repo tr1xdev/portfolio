@@ -3,6 +3,9 @@ import type { KeyboardEvent } from 'react'
 
 export type Command = { id: string; label: string; hint?: string; group: string; run: () => void }
 
+const row =
+  'group grid min-h-11 cursor-pointer grid-cols-[64px_1fr_auto] items-center gap-3 rounded-[7px] px-3 aria-selected:bg-paper-3 aria-selected:text-ink aria-selected:shadow-[inset_2px_0_0_var(--color-signal)]'
+
 export function CommandPalette({ open, onClose, commands }: { open: boolean; onClose: () => void; commands: Command[] }) {
   const [q, setQ] = useState('')
   const [idx, setIdx] = useState(0)
@@ -55,19 +58,20 @@ export function CommandPalette({ open, onClose, commands }: { open: boolean; onC
   }
 
   return (
-    <div className="palette-backdrop" onMouseDown={onClose}>
+    <div className="fixed inset-0 z-50 grid [place-items:start_center] animate-fade bg-[rgba(0,0,0,0.62)] p-[14vh_16px_16px] backdrop-blur-[3px] print:hidden" onMouseDown={onClose}>
       <div
-        className="palette"
+        className="w-[min(100%,560px)] animate-rise overflow-hidden rounded-xl border border-line-2 bg-paper-2 shadow-[0_32px_80px_rgba(0,0,0,0.7)]"
         role="dialog"
         aria-modal="true"
         aria-label="Command palette"
         onMouseDown={(e) => e.stopPropagation()}
         onKeyDown={onKey}
       >
-        <div className="palette-input mono">
+        <div className="mono flex items-center gap-3 border-b border-line px-4 [&>kbd]:text-ink-3 [&>span]:font-bold [&>span]:text-signal-ink">
           <span aria-hidden="true">›</span>
           <input
             ref={input}
+            className="h-14 flex-1 border-0 bg-transparent font-mono text-[16px] leading-[normal] text-ink outline-none"
             value={q}
             onChange={(e) => setQ(e.target.value)}
             placeholder="type a command…"
@@ -80,25 +84,25 @@ export function CommandPalette({ open, onClose, commands }: { open: boolean; onC
           />
           <kbd>esc</kbd>
         </div>
-        <ul id="palette-list" className="palette-list" role="listbox">
-          {list.length === 0 && <li className="palette-empty mono">no matching command</li>}
+        <ul id="palette-list" className="m-0 max-h-[360px] list-none overflow-y-auto p-1.5" role="listbox">
+          {list.length === 0 && <li className="mono cursor-default! px-3 py-4 text-[13px] text-ink-3">no matching command</li>}
           {list.map((c, i) => (
             <li
               key={c.id}
               id={`cmd-${c.id}`}
               role="option"
               aria-selected={i === idx}
-              className={i === idx ? 'is-active' : ''}
+              className={row}
               onMouseEnter={() => setIdx(i)}
               onClick={() => exec(c)}
             >
-              <span className="pc-group mono">{c.group}</span>
-              <span className="pc-label">{c.label}</span>
-              {c.hint && <span className="pc-hint mono">{c.hint}</span>}
+              <span className="mono text-[11px] tracking-[0.08em] text-ink-3 uppercase group-aria-selected:text-signal-ink">{c.group}</span>
+              <span>{c.label}</span>
+              {c.hint && <span className="mono text-xs opacity-60">{c.hint}</span>}
             </li>
           ))}
         </ul>
-        <div className="palette-foot mono">
+        <div className="mono flex gap-4 border-t border-line px-4 py-2.5 text-[11px] text-ink-3">
           <span>↑↓ navigate</span>
           <span>↵ run</span>
           <span>esc close</span>
