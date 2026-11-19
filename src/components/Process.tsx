@@ -107,7 +107,7 @@ export function Process() {
     <div className="grid grid-cols-[minmax(0,1fr)_minmax(0,1.15fr)] items-start gap-14 max-tight:grid-cols-[1fr] max-tight:gap-10">
       <div>
         <h3 className="m-0 mb-6 text-process leading-[0.95] font-extrabold font-stretch-[118%] tracking-[-0.035em] [text-wrap:balance]">
-          Built to spec<span>.</span> Tested to fail safely<span>.</span>
+          Built to spec<span className="text-signal">.</span> Tested to fail safely<span className="text-signal">.</span>
         </h3>
         <p className="m-0 max-w-[480px] text-[17px] text-ink-2">
           I start from the contract: schemas, failure modes, edge cases. Then I build, measure and harden until the service holds up
