@@ -48,7 +48,7 @@ export function Pinout() {
           <text x={W / 2} y={292} className={`fill-signal ${svgMono} text-[13px] tracking-[0.22em]`} textAnchor="middle">
             SYSTEMS CORE
           </text>
-          <text x={W / 2} y={318} className={`${svgMono} fill-[rgba(242,240,234,0.55)] text-ink-2 text-[13px] tracking-[0.08em]`} textAnchor="middle">
+          <text x={W / 2} y={318} className={`${svgMono} fill-ink-2 text-[13px] tracking-[0.08em]`} textAnchor="middle">
             {profile.handle} · 2026
           </text>
 
@@ -75,7 +75,7 @@ export function Pinout() {
                   x={isL ? BODY.x + 14 : BODY.x + BODY.w - 14}
                   y={pos.y + 4.5}
                   textAnchor={isL ? 'start' : 'end'}
-                  className={`${svgMono} fill-[rgba(242,240,234,0.55)] text-xs group-aria-pressed:fill-white`}
+                  className={`${svgMono} fill-ink-2 text-xs group-aria-pressed:fill-ink`}
                 >
                   {String(i + 1).padStart(2, '0')}
                 </text>
@@ -142,9 +142,8 @@ export function Pinout() {
               {pins
                 .filter((p) => p.group === g)
                 .map((p) => (
-                  <li key={p.signal} className="rounded-md border border-line-2 px-3 py-[7px] font-semibold">
+                  <li key={p.signal} className="rounded-md border border-line-2 px-3 py-[7px] font-semibold" title={p.note}>
                     <span>{p.name}</span>
-                    <span className="hidden">{p.note}</span>
                   </li>
                 ))}
             </ul>
