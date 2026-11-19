@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
-import { profile } from '../data/profile'
 import { isMac } from '../hooks'
+import { profile } from '../data/profile'
 
 const fmt = new Intl.DateTimeFormat('en-GB', {
   timeZone: profile.timezone,
@@ -13,6 +13,8 @@ const fmt = new Intl.DateTimeFormat('en-GB', {
 function pad(n: number) {
   return String(n).padStart(2, '0')
 }
+
+const item = 'flex items-center gap-2 border-r border-line px-4 whitespace-nowrap max-phone:px-3'
 
 export function StatusBar({ section, onPalette }: { section: string; onPalette: () => void }) {
   const [now, setNow] = useState(() => new Date())
@@ -27,20 +29,20 @@ export function StatusBar({ section, onPalette }: { section: string; onPalette: 
   const uptime = `${pad(Math.floor(up / 3600))}:${pad(Math.floor((up % 3600) / 60))}:${pad(up % 60)}`
 
   return (
-    <footer className="statusbar mono" aria-label="Status bar">
-      <span className="sb-item sb-online">
+    <footer className="mono fixed inset-x-0 bottom-0 z-30 flex h-[calc(var(--spacing-bar)+env(safe-area-inset-bottom))] items-stretch border-t border-line bg-[rgba(8,8,9,0.92)] pb-[env(safe-area-inset-bottom)] text-xs text-ink-2 backdrop-blur-[10px] print:hidden" aria-label="Status bar">
+      <span className={`${item} text-[#f2f0ea]`}>
         <span className="led" aria-hidden="true" /> online
       </span>
-      <span className="sb-item">
-        <span className="sb-k">tr1x local</span> {fmt.format(now)} {profile.tzLabel.split(' ')[0]}
+      <span className={item}>
+        <span className="text-ink-3">tr1x local</span> {fmt.format(now)} {profile.tzLabel.split(' ')[0]}
       </span>
-      <span className="sb-item sb-hide-sm">
-        <span className="sb-k">session</span> {uptime}
+      <span className={`${item} max-tight:hidden`}>
+        <span className="text-ink-3">session</span> {uptime}
       </span>
-      <span className="sb-item sb-hide-sm">
-        <span className="sb-k">§</span> {section}
+      <span className={`${item} max-tight:hidden`}>
+        <span className="text-ink-3">§</span> {section}
       </span>
-      <button type="button" className="sb-item sb-cmd" onClick={onPalette}>
+      <button type="button" className="mono ml-auto flex cursor-pointer items-center gap-2 border-l border-line bg-transparent px-4 text-xs whitespace-nowrap text-[#f2f0ea] hover:bg-signal hover:text-[#141414] max-phone:px-3 max-phone:text-[11px] touch:hidden [&>kbd]:text-[11px]" onClick={onPalette}>
         <kbd>{isMac ? '⌘' : 'Ctrl'} K</kbd> commands
       </button>
     </footer>

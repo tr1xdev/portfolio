@@ -1,0 +1,247 @@
+@import 'tailwindcss';
+
+/* ── design tokens ─────────────────────────────────────
+   Single source of truth: every colour, font, breakpoint and
+   fluid type step used by the UI lives here and becomes a
+   Tailwind utility (bg-paper, text-ink-2, max-tight:, …).   */
+@theme {
+  /* graphite surfaces — warm-neutral, one accent */
+  --color-paper: #0c0c0d;
+  --color-paper-2: #141416;
+  --color-paper-3: #1c1c1f;
+  --color-ink: #eeece7;
+  --color-ink-2: #a9a69f;
+  --color-ink-3: #85827b;
+  --color-line: rgb(238 236 231 / 0.09);
+  --color-line-2: rgb(238 236 231 / 0.16);
+  --color-line-strong: rgb(238 236 231 / 0.34);
+  --color-rule: rgb(238 236 231 / 0.78);
+  --color-signal: #ff5a1f;
+  --color-signal-ink: #ff7a45;
+  --color-on-signal: #0c0c0d;
+
+  /* pin / language groups */
+  --color-g-lang: #ff7a45;
+  --color-g-arch: #6f9bff;
+  --color-g-data: #35c48f;
+  --color-g-infra: #b197ff;
+
+  --font-display: 'Archivo', 'Helvetica Neue', Arial, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+
+  /* layout */
+  --container-wrap: 1200px;
+  --spacing-gutter: 40px;
+  --spacing-bar: 36px;
+
+  /* the design is desktop-first, so its own breakpoints drive max-* variants */
+  --breakpoint-nav: 1081px; /* <= 1080: nav collapses into the menu button */
+  --breakpoint-tight: 901px; /* <= 900: sections stack */
+  --breakpoint-phone: 521px; /* <= 520: phone refinements */
+
+  /* fluid type */
+  --text-hero: clamp(76px, 18vw, 248px);
+  --text-lede: clamp(17px, 1.6vw, 20px);
+  --text-spec: clamp(16px, 1.7vw, 20px);
+  --text-section: clamp(28px, 3.4vw, 44px);
+  --text-overview: clamp(22px, 2.3vw, 30px);
+  --text-process: clamp(34px, 4.4vw, 60px);
+  --text-mega: clamp(40px, 6.4vw, 92px);
+  --text-card: clamp(28px, 3.4vw, 40px);
+  --text-card-lead: clamp(36px, 5.6vw, 72px);
+
+  /* the sheet's baseline is 1.5 everywhere; keep named sizes on it */
+  --text-xs--line-height: 1.5;
+  --text-sm--line-height: 1.5;
+  --text-base--line-height: 1.5;
+  --text-lg--line-height: 1.5;
+
+  --animate-pulse: pulse 2.4s ease-in-out infinite;
+  --animate-blink: blink 1s steps(1) infinite;
+  --animate-fade: fade 0.15s ease-out;
+  --animate-rise: rise 0.18s cubic-bezier(0.2, 0.8, 0.2, 1);
+
+  @keyframes pulse {
+    50% {
+      box-shadow: 0 0 0 6px rgb(255 90 31 / 0);
+    }
+  }
+  @keyframes blink {
+    50% {
+      opacity: 0;
+    }
+  }
+  @keyframes fade {
+    from {
+      opacity: 0;
+    }
+  }
+  @keyframes rise {
+    from {
+      opacity: 0;
+      transform: translateY(8px) scale(0.98);
+    }
+  }
+}
+
+/* touch screens get no hover-only affordances */
+@custom-variant touch (@media (hover: none));
+
+/* ── shared primitives ──────────────────────────────── */
+@utility mono {
+  font-family: var(--font-mono);
+  font-feature-settings: 'zero' 1;
+}
+
+@utility wrap {
+  max-width: var(--container-wrap);
+  margin-inline: auto;
+  padding-inline: var(--spacing-gutter);
+}
+
+/* status LED */
+@utility led {
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--color-signal);
+  box-shadow: 0 0 0 3px rgb(255 90 31 / 0.22);
+  animation: var(--animate-pulse);
+  vertical-align: middle;
+}
+
+/* terminal caret */
+@utility caret {
+  display: inline-block;
+  width: 8px;
+  height: 1.05em;
+  margin-left: 2px;
+  vertical-align: text-bottom;
+  background: var(--color-signal);
+  animation: var(--animate-blink);
+}
+
+/* colour chip that reads the inherited --g group colour */
+@utility swatch {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 2px;
+  background: var(--g);
+}
+
+/* the language-mix panel paints a 24px grid over graphite */
+@utility mix-grid {
+  background:
+    linear-gradient(rgb(238 236 231 / 0.035) 1px, transparent 1px) 0 0 / 100% 24px,
+    linear-gradient(90deg, rgb(238 236 231 / 0.035) 1px, transparent 1px) 0 0 / 24px 100%,
+    #121214;
+}
+
+@utility g-lang {
+  --g: var(--color-g-lang);
+}
+@utility g-arch {
+  --g: var(--color-g-arch);
+}
+@utility g-data {
+  --g: var(--color-g-data);
+}
+@utility g-infra {
+  --g: var(--color-g-infra);
+}
+
+/* ── base ───────────────────────────────────────────── */
+@layer base {
+  html {
+    scroll-padding-top: 72px;
+    -webkit-text-size-adjust: 100%;
+    background: var(--color-paper);
+    scrollbar-color: #2e2e33 var(--color-paper);
+    color-scheme: dark;
+  }
+
+  body {
+    margin: 0;
+    background: var(--color-paper);
+    color: var(--color-ink);
+    font-family: var(--font-display);
+    font-size: 16px;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    padding-bottom: calc(var(--spacing-bar) + env(safe-area-inset-bottom));
+  }
+
+  ::selection {
+    background: var(--color-signal);
+    color: var(--color-on-signal);
+  }
+
+  a {
+    color: inherit;
+  }
+
+  button {
+    font: inherit;
+    color: inherit;
+  }
+
+  img {
+    max-width: 100%;
+    display: block;
+  }
+
+  kbd {
+    font-family: var(--font-mono);
+    font-feature-settings: 'zero' 1;
+    font-size: 0.78em;
+    padding: 2px 6px;
+    border: 1px solid currentColor;
+    border-bottom-width: 2px;
+    border-radius: 4px;
+    line-height: 1;
+    white-space: nowrap;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-signal);
+    outline-offset: 3px;
+  }
+}
+
+/* ── print datasheet ────────────────────────────────── */
+@media print {
+  :root {
+    --color-paper: #fff;
+    --color-paper-2: #f3f2ee;
+    --color-paper-3: #e8e6e0;
+    --color-ink: #141414;
+    --color-ink-2: #54524c;
+    --color-ink-3: #77746d;
+    --color-line: rgb(20 20 20 / 0.14);
+    --color-line-2: rgb(20 20 20 / 0.2);
+    --color-line-strong: rgb(20 20 20 / 0.5);
+    --color-rule: #141414;
+    --color-signal-ink: #b23500;
+    color-scheme: light;
+  }
+
+  body {
+    padding-bottom: 0;
+    background: #fff;
+  }
+}
+
+/* ── motion preferences ─────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+  html {
+    scroll-behavior: auto;
+  }
+}

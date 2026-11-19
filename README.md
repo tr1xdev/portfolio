@@ -1,6 +1,6 @@
 # tr1xdev — TRX-01 datasheet
 
-Personal portfolio styled as an engineering IC datasheet. React 19 + TypeScript + Vite.
+Personal portfolio styled as an engineering IC datasheet. React 19 + TypeScript + Tailwind CSS 4 + Vite.
 
 Live: **https://tr1xdev.github.io**
 

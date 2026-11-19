@@ -51,6 +51,15 @@ const STAGES: { step: string; lines: Line[] }[] = [
 ]
 
 const PREFIX: Record<Line['kind'], string> = { note: '#', cmd: '$', out: '›' }
+const LINE: Record<Line['kind'], string> = { note: 'text-ink-3 italic', cmd: 'text-ink', out: 'text-[#6fd3a5]' }
+const PREFIX_COLOR: Record<Line['kind'], string> = {
+  note: 'text-ink-3',
+  cmd: 'text-signal-ink',
+  out: 'text-[rgba(111,211,165,0.6)]',
+}
+
+const termLine = 'm-0 mb-2 grid grid-cols-[16px_1fr] gap-2.5 [overflow-wrap:anywhere] max-tight:grid-cols-[14px_1fr] max-tight:gap-2'
+const termDot = 'h-[3px] w-[18px] rounded-[2px] bg-[rgba(238,236,231,0.14)] [transition:background_0.3s,width_0.3s]'
 
 export function Process() {
   const [ref, inView] = useInView<HTMLDivElement>()
@@ -95,23 +104,28 @@ export function Process() {
   }
 
   return (
-    <div className="process">
-      <div className="process-copy">
-        <h3 className="process-title">
-          Built to spec<span className="amp">.</span> Tested to fail safely<span className="amp">.</span>
+    <div className="grid grid-cols-[minmax(0,1fr)_minmax(0,1.15fr)] items-start gap-14 max-tight:grid-cols-[1fr] max-tight:gap-10">
+      <div>
+        <h3 className="m-0 mb-6 text-process leading-[0.95] font-extrabold font-stretch-[118%] tracking-[-0.035em] [text-wrap:balance]">
+          Built to spec<span>.</span> Tested to fail safely<span>.</span>
         </h3>
-        <p>
+        <p className="m-0 max-w-[480px] text-[17px] text-ink-2">
           I start from the contract: schemas, failure modes, edge cases. Then I build, measure and harden until the service holds up
           under real load.
         </p>
-        <p className="process-aside">
+        <p className="mt-4 max-w-[480px] border-l-2 border-line-strong pl-3.5 text-[15px] text-ink-3">
           AI assistants sit in the toolbox next to the debugger and the profiler. Design decisions stay with me.
         </p>
-        <ol className="duty mono" aria-label="Workflow stages">
+        <ol className="mono m-0 mt-8 flex list-none flex-wrap p-0 text-[13px] max-tight:flex-nowrap max-tight:overflow-x-auto max-tight:[scrollbar-width:none]" aria-label="Workflow stages">
           {STAGES.map((s, i) => (
-            <li key={s.step}>
-              <button type="button" className={i === stage ? 'is-on' : ''} aria-pressed={i === stage} onClick={() => pick(i)}>
-                <span>{String(i + 1).padStart(2, '0')}</span>
+            <li key={s.step} className="-mr-px -mb-px m-0 max-tight:flex-[0_0_auto]">
+              <button
+                type="button"
+                className="group flex min-h-11 cursor-pointer items-center gap-2 rounded-none border border-line-2 bg-transparent px-4 mono text-[13px] text-ink-2 [transition:background_0.2s,color_0.2s,border-color_0.2s] hover:bg-paper-3 hover:text-ink aria-pressed:relative aria-pressed:border-signal aria-pressed:bg-signal aria-pressed:font-bold aria-pressed:text-on-signal"
+                aria-pressed={i === stage}
+                onClick={() => pick(i)}
+              >
+                <span className="text-[11px] text-signal-ink group-aria-pressed:text-on-signal">{String(i + 1).padStart(2, '0')}</span>
                 {s.step}
               </button>
             </li>
@@ -119,28 +133,28 @@ export function Process() {
         </ol>
       </div>
 
-      <div className="term" ref={ref} role="img" aria-label={`Example workflow, stage: ${step}`}>
-        <div className="term-bar mono" aria-hidden="true">
-          <span className="term-dots">
-            <i />
-            <i />
-            <i />
+      <div className="overflow-hidden rounded-xl border border-line-2 bg-[#0a0a0b] shadow-[0_30px_60px_-30px_rgba(0,0,0,0.8)]" ref={ref} role="img" aria-label={`Example workflow, stage: ${step}`}>
+        <div className="mono flex items-center gap-3.5 border-b border-line px-4 py-3 text-xs text-ink-3" aria-hidden="true">
+          <span className="flex gap-1.5">
+            <i className="size-2.5 rounded-[50%] bg-[rgba(238,236,231,0.16)]" />
+            <i className="size-2.5 rounded-[50%] bg-[rgba(238,236,231,0.16)]" />
+            <i className="size-2.5 rounded-[50%] bg-[rgba(238,236,231,0.16)]" />
           </span>
-          <span className="term-title">
-            workflow <span className="term-sep">/</span> {step}
+          <span className="overflow-hidden text-ellipsis whitespace-nowrap text-ink-2">
+            workflow <span className="text-ink-3">/</span> {step}
           </span>
-          <span className="term-rec">
+          <span className="ml-auto inline-flex items-center gap-2 whitespace-nowrap text-signal-ink">
             <span className="led" /> {String(stage + 1).padStart(2, '0')}/{String(STAGES.length).padStart(2, '0')}
           </span>
         </div>
-        <div className="term-body mono" aria-hidden="true">
+        <div className="mono min-h-[184px] px-5 pt-5 pb-4 text-sm leading-[1.6] max-tight:min-h-[236px] max-tight:text-[13px]" aria-hidden="true">
           {lines.map((l, i) => {
             if (!done && i > line) return null
             const partial = !done && i === line
             const text = partial ? l.text.slice(0, chars) : l.text
             return (
-              <p key={`${stage}-${i}`} className={`tl tl-${l.kind}`}>
-                <span className="tl-p">{PREFIX[l.kind]}</span>
+              <p key={`${stage}-${i}`} className={`${termLine} ${LINE[l.kind]}`}>
+                <span className={PREFIX_COLOR[l.kind]}>{PREFIX[l.kind]}</span>
                 <span>
                   {text}
                   {partial && <span className="caret" />}
@@ -149,17 +163,21 @@ export function Process() {
             )
           })}
           {done && !reduced && (
-            <p className="tl tl-cmd">
-              <span className="tl-p">$</span>
+            <p className={`${termLine} text-ink`}>
+              <span className="text-signal-ink">$</span>
               <span>
                 <span className="caret" />
               </span>
             </p>
           )}
         </div>
-        <div className="term-foot" aria-hidden="true">
+        <div className="flex gap-1.5 px-5 pb-[18px]" aria-hidden="true">
           {STAGES.map((s, i) => (
-            <span key={s.step} className={i === stage ? 'is-on' : i < stage ? 'is-done' : ''} />
+            <span
+              key={s.step}
+              data-state={i === stage ? 'on' : i < stage ? 'done' : 'idle'}
+              className={`${termDot} data-[state=done]:bg-[rgba(255,90,31,0.4)] data-[state=on]:w-8 data-[state=on]:bg-signal`}
+            />
           ))}
         </div>
       </div>
