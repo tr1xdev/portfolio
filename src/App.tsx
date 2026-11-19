@@ -163,7 +163,7 @@ export default function App() {
       </a>
 
       <header
-        className="sticky top-0 z-20 border-b border-line bg-[rgba(12,12,13,0.78)] backdrop-saturate-[140%] backdrop-blur-[10px] max-nav:data-[open]:bg-paper print:hidden"
+        className="sticky top-0 z-20 border-b border-line bg-paper/80 backdrop-saturate-[140%] backdrop-blur-[10px] max-nav:data-[open]:bg-paper print:hidden"
         data-open={menu ? 'true' : undefined}
       >
         <div className="wrap flex h-[60px] items-center gap-6 max-tight:px-5">
@@ -362,7 +362,7 @@ export default function App() {
                 </div>
               </div>
             </div>
-            <p className="mono m-0 mt-24 border-t border-line pt-4 text-xs text-ink-3">
+            <p className="mono m-0 mt-24 flex flex-wrap gap-x-6 gap-y-1 border-t border-line pt-4 text-xs text-ink-3">
               <span>© {new Date().getFullYear()} {profile.handle}</span>
               <span>react + typescript + vite</span>
               <span>hosted on github pages</span>
@@ -376,7 +376,7 @@ export default function App() {
 
       <StatusBar section={current ? `${current.no} ${current.label.toLowerCase()}` : '00 top'} onPalette={() => setPalette(true)} />
       <CommandPalette open={palette} onClose={() => setPalette(false)} commands={commands} />
-      <div className="mono fixed bottom-[calc(var(--spacing-bar)+16px+env(safe-area-inset-bottom))] left-1/2 z-[60] -translate-x-1/2 translate-y-3 rounded-lg bg-signal px-4 py-2.5 text-[13px] font-bold text-[#141414] opacity-0 pointer-events-none [transition:opacity_0.2s,transform_0.2s] data-[on=true]:translate-y-0 data-[on=true]:opacity-100" role="status" aria-live="polite" data-on={toast ? 'true' : undefined}>
+      <div className="mono fixed bottom-[calc(var(--spacing-bar)+16px+env(safe-area-inset-bottom))] left-1/2 z-[60] -translate-x-1/2 translate-y-3 rounded-lg bg-signal px-4 py-2.5 text-[13px] font-bold text-on-signal opacity-0 pointer-events-none [transition:opacity_0.2s,transform_0.2s] data-[on=true]:translate-y-0 data-[on=true]:opacity-100" role="status" aria-live="polite" data-on={toast ? 'true' : undefined}>
         {toast}
       </div>
     </>
