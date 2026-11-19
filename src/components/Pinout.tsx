@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { groups, pins, profile, skillIconsUrl } from '../data/profile'
+import { groups, pins, profile } from '../data/profile'
 import type { GroupId } from '../data/profile'
 
 const W = 760
@@ -126,41 +126,24 @@ export function Pinout() {
         <p className="panel-hint mono">hover or tab through pins · click a group to isolate it</p>
       </aside>
 
-      <div className="pin-table-wrap">
-        <table className="pin-table">
-          <caption className="mono">Pin description</caption>
-          <thead>
-            <tr>
-              <th scope="col">Pin</th>
-              <th scope="col">Signal</th>
-              <th scope="col">Function</th>
-            </tr>
-          </thead>
-          <tbody>
-            {pins.map((p, i) => (
-              <tr key={p.signal} className={`g-${p.group}`}>
-                <td className="mono">{String(i + 1).padStart(2, '0')}</td>
-                <td className="mono">
-                  <span className="swatch" aria-hidden="true" /> {p.signal}
-                </td>
-                <td>
-                  {p.name} <span className="muted">— {groups[p.group].label}</span>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-
-      <div className="marking">
-        <span className="mono marking-label">Package marking</span>
-        <img
-          src={skillIconsUrl}
-          onError={(e) => {
-            const box = e.currentTarget.closest('.marking')
-            if (box) (box as HTMLElement).hidden = true
-          }}
-          alt="Skill icons: JavaScript, TypeScript, Go, Rust, C, C++, React, Kafka, GraphQL, Redis, PostgreSQL, CMake, Docker, Git" loading="lazy" />
+      <div className="pin-groups">
+        {groupIds.map((g) => (
+          <div key={g} className={`pg g-${g}`}>
+            <h3 className="pg-title mono">
+              <span className="swatch" aria-hidden="true" /> {groups[g].label}
+            </h3>
+            <ul className="pg-list">
+              {pins
+                .filter((p) => p.group === g)
+                .map((p) => (
+                  <li key={p.signal}>
+                    <span className="pg-name">{p.name}</span>
+                    <span className="pg-note">{p.note}</span>
+                  </li>
+                ))}
+            </ul>
+          </div>
+        ))}
       </div>
     </div>
   )

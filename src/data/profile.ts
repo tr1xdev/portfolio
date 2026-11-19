@@ -9,8 +9,10 @@ export const profile = {
   role: 'Software & backend developer',
   summary: 'Backend developer. Systems work, ML experiments, side projects.',
   githubUser: 'tr1xdev',
+  site: 'https://tr1xdev.github.io',
   timezone: 'Europe/Moscow',
   tzLabel: 'MSK · UTC+3',
+  location: 'Moscow',
   links: {
     github: 'https://github.com/tr1xdev',
     // Optional — leave empty to hide. e.g. 'hello@example.com'
@@ -19,6 +21,36 @@ export const profile = {
     telegram: '',
   },
 }
+
+/**
+ * Hand-picked projects shown first in §02. `repo` must match a public GitHub repository name;
+ * stars, last push and the language breakdown are read live from the API.
+ */
+export type Featured = { repo: string; title: string; kind: string; summary: string; stack: string[] }
+
+export const featured: Featured[] = [
+  {
+    repo: 'aerogram-messenger',
+    title: 'Aerogram',
+    kind: 'Messaging platform',
+    summary: 'High-performance messaging platform. Go on the server, React on the client, one protocol between them.',
+    stack: ['Go', 'React', 'TypeScript'],
+  },
+  {
+    repo: 'go-shortener',
+    title: 'go-shortener',
+    kind: 'Web service',
+    summary: 'URL shortener with a Go backend and a React frontend. Small surface, done properly.',
+    stack: ['Go', 'React'],
+  },
+  {
+    repo: 'Reactive',
+    title: 'Reactive',
+    kind: 'C++ library',
+    summary: 'Reactive programming primitives for C++. Archived, kept public as a reference.',
+    stack: ['C++', 'CMake'],
+  },
+]
 
 export type GroupId = 'lang' | 'arch' | 'data' | 'infra'
 
@@ -58,14 +90,10 @@ export const pins: Pin[] = [
 ]
 
 export const sections = [
-  { id: 'overview', no: '01', label: 'Overview' },
-  { id: 'pinout', no: '02', label: 'Pinout' },
-  { id: 'process', no: '03', label: 'Process' },
-  { id: 'projects', no: '04', label: 'Projects' },
+  { id: 'about', no: '01', label: 'About' },
+  { id: 'work', no: '02', label: 'Work' },
+  { id: 'stack', no: '03', label: 'Stack' },
+  { id: 'process', no: '04', label: 'Process' },
   { id: 'specs', no: '05', label: 'Specs' },
   { id: 'contact', no: '06', label: 'Contact' },
 ] as const
-
-export const skillIconsUrl =
-  'https://skillicons.dev/icons?i=js,ts,go,rust,c,cpp,react,kafka,graphql,redis,postgres,cmake,docker,git&theme=dark'
-
