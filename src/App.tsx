@@ -8,6 +8,7 @@ import { Stats } from './components/Stats'
 import { CommandPalette } from './components/CommandPalette'
 import type { Command } from './components/CommandPalette'
 import { StatusBar } from './components/StatusBar'
+import { Scope } from './components/Scope'
 import { isMac, useActiveSection } from './hooks'
 
 const ids = sections.map((s) => s.id)
@@ -220,9 +221,7 @@ export default function App() {
               <span>tr1x</span>
               <span className="text-signal">dev</span>
             </h1>
-            <svg className="mt-[clamp(20px,3vw,32px)] block h-7 w-full fill-none stroke-line-strong [stroke-width:1.5] [vector-effect:non-scaling-stroke]" viewBox="0 0 1200 40" preserveAspectRatio="none" aria-hidden="true">
-              <path className="[stroke-width:1.5] [vector-effect:non-scaling-stroke]" d="M0 20H420l14-16 18 32 18-32 18 32 14-16H760l10-10 10 10H1200" />
-            </svg>
+            <Scope />
             <div className="mt-[clamp(20px,3vw,32px)] grid grid-cols-[minmax(0,1.4fr)_auto] items-end gap-10 max-tight:grid-cols-[1fr] max-tight:gap-6">
               <p className="m-0 max-w-[620px] text-lede leading-[1.55] text-ink-2 [text-wrap:pretty]">
                 <strong className="font-bold text-ink">Backend &amp; systems developer.</strong> I build services that talk over the network, data that has to stay
